@@ -1,0 +1,15 @@
+{% extends 'surveys/base.html' %} 
+
+<head>
+{% load static %} 
+{% load tailwind_tags %} 
+
+</head>
+
+{% block 'body' %}
+
+
+
+  <p>Logged out!</p>
+  <a href="{% url 'login'%}">Click here to login again.</a>
+{% endblock %}

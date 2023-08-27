@@ -1,0 +1,119 @@
+{% extends 'surveys/base.html' %} 
+
+<!-- {% load static %} 
+
+{% load tailwind_tags %}  -->
+
+{% block content %}
+
+<nav class="bg-teal-100 shadow-lg">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex flex-row-reverse justify-between">
+        <div class="flex space-x-7">
+          <!-- Website Logo -->
+          <!-- <div>
+            <a href="#" class="flex items-center py-4 px-2">
+              <img src="logo.png" alt="Logo" class="h-8 w-8 mr-2" />
+              <span class="font-semibold text-gray-500 text-lg"
+                >Navigation</span
+              >
+            </a>
+          </div> -->
+          <!-- Primary Navbar items -->
+          <div class="hidden md:flex items-center space-x-1">
+            <div class="hidden md:flex items-center space-x-1">
+              {% if user.is_authenticated %}
+         User: {{ user.get_username }}
+         <a href="{% url 'logout' %}?next={{ request.path }}" 
+         class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Logout</a>
+       {% else %}
+         <a href="{% url 'login' %}?next={{ request.path }}" 
+         class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Login</a>
+       {% endif %}
+       
+            <a
+              href=""
+              class="py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold "
+              >Partial Results</a
+            >
+            <a
+              href=""
+              class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+              >Home</a
+            >
+            <!-- <a
+               href=""
+              class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+              >About</a
+            >  -->
+          
+          </div>
+        </div>
+           <!-- Mobile menu button -->
+  <div class="md:hidden flex items-center">
+      <button class="outline-none mobile-menu-button">
+          <svg
+              class="w-6 h-6 text-gray-500"
+              x-show="!showMenu"
+              fill="none"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+          >
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+      </button>
+  </div>
+  </div>
+  </div>
+  <!-- Mobile menu -->
+  <div class="hidden mobile-menu">
+      <ul class="">
+          <li class="active"><a href="index.html" class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold">Home</a></li>
+          <li><a href="#services" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Services</a></li>
+          <li><a href="#about" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">About</a></li>
+          <li><a href="#contact" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contact Us</a></li>
+      </ul>
+  </div>
+</nav>
+<h2>Results here</h2>
+
+<table class="mx-auto">
+    <thead class="sr-only">
+      <tr>
+        <th>Title</th>
+        <th>Date Created</th>
+        <th>Status</th>
+        <th>Submissions</th>
+        <th>Results</th>
+      </tr>
+    </thead>
+    <tbody>
+
+        {% for result in results %}
+      <tr>
+        <td class="px-4 py-3 text-gray-900 bg-gray-200 first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">{{result.question.question}}</td>
+        <td class="px-4 py-3 text-gray-900 bg-gray-200 first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">{{result.question.date}}</td>
+        <td class="px-4 py-3 text-gray-900 bg-gray-200 first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">active</td>
+        <td class="px-4 py-3 text-gray-900 bg-gray-200 first:rounded-tl-lg first:rounded-bl-lg last:rounded-tr-lg last:rounded-br-lg">{{result.votes}}</td>
+      
+        <button class="bg-green-500 rounded-full" onclick="displayResults('{{result.question.question}}')"><td class="px-4 py-3 text-gray-900 rounded-full">View Results  </td></button>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  <script>
+
+    function displayResults(question) {
+
+      console.log('hola')
+      console.log(question)
+
+    }
+  </script>
+
+ {% endblock content %}
+
