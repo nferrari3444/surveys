@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Survey, Choices, Results
+from .models import Survey, Choices, Results   , Uservotes
 # Register your models here.
 
 
@@ -8,3 +8,4 @@ from .models import Survey, Choices, Results
 admin.site.register(Survey)
 admin.site.register(Choices)
 admin.site.register(Results)
+admin.site.register(Uservotes)

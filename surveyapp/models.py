@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
 from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 # Create your models here.
 
 
@@ -16,12 +17,22 @@ class Users(models.Model):
 
 
 class Survey(models.Model):
+    STATUSES = [
+        ('Pending', 'Pending'),
+        ('Running', 'Running'),
+        ('Finished', 'Finished')
+    ]
+
     id = models.IntegerField(primary_key=True)
     date = models.DateField()
     topic = models.CharField(max_length=50, default='hola')
     question = models.CharField(max_length=200)
     creator = models.CharField(max_length=100)
     submissions = models.IntegerField(default=0)
+    status = models.CharField(max_length=15, choices=STATUSES)
+
+
+ 
 
     def __str__(self):
         return self.question
@@ -39,3 +50,24 @@ class Results(models.Model):
     selectedchoice = models.CharField(max_length=100)
     votes = models.IntegerField(default=0)
    # user = models.CharField(max_length=50)
+
+class Uservotes(models.Model):
+   
+    class Meta:
+        unique_together = (('username', 'answer'),)
+
+  #  question_name = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    question_name = models.ForeignKey(Survey, on_delete=models.CASCADE)
+    username = models.CharField(max_length=100)
+    answer = models.CharField(max_length=50)
+
+   
+
+    # def save(self, *args, **kwargs):
+        
+    #     if not self.pk and Uservotes.objects.exists():
+        
+    #     # if you'll not check for self.pk 
+    #     # then error will also be raised in the update of exists model
+    #         raise ValidationError('There is can be only one JuicerBaseSettings instance')
+    #     return super(Uservotes, self).save(*args, **kwargs)

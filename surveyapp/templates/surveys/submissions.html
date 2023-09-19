@@ -14,9 +14,22 @@
 
 <nav class="bg-teal-100 shadow-lg">
     <div class="max-w-6xl mx-auto px-4">
-      <div class="flex flex-row-reverse justify-between">
-        <div class="flex space-x-7">
+      <div class="">
+        <!-- <div class="flex items-center flex space-x-7"> -->
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between">
           <!-- Website Logo -->
+           <div class="flex flex-wrap text-left">
+            <!-- <a href="#" class="flex items-center py-4 px-2"> -->
+              <img src="{% static 'media/qs-research-logo.png' %}" alt="Logo" class="h-10 w-10 mr-4" />
+              <span class="font-semibold text-gray-500 text-lg"
+                >QS Research</span
+              >
+            <!-- </a> -->
+          </div> 
+
+      <!-- <div class="flex flex-row-reverse justify-between">
+        <div class="flex space-x-7">
+           Website Logo -->
           <!-- <div>
             <a href="#" class="flex items-center py-4 px-2">
               <img src="logo.png" alt="Logo" class="h-8 w-8 mr-2" />
@@ -24,28 +37,40 @@
                 >Navigation</span
               >
             </a>
-          </div> -->
+          </div> --> 
           <!-- Primary Navbar items -->
-          <div class="hidden md:flex items-center space-x-1">
+          <div class="hidden justify-start flex md:flex items-center space-x-1">
             {% if user.is_authenticated %}
-            User: {{ user.get_username }}
-
-            <!-- ?next={{ request.path }} -->
-            <a href="{% url 'logout' %}" 
-            class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Logout</a>
-          {% else %}
-            <a href="{% url 'login' %}?next={{ request.path }}" 
-            class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Login</a>
-          {% endif %}
+            <div class="flex text-black-400 items-center lg:mr-20 sm:mr-0 lm:mr-0">
+              Welcome 
+              <div class="text-red-400 items-center font-medium italic ml-5 lg:mr-20 sm:mr-0 lm:mr-0">
+              {{ user.get_username }}
+              </div>
+              </div>
           
+              <a href="{% url 'logout' %}?next={{ request.path }}" 
+              class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300">Logout</a>
+            {% else %}
+              <a href="{% url 'login' %}?next={{ request.path }}" 
+              class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300">Login</a>
+            {% endif %}
+
+
             <a
-              href=""
-              class="py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold "
-              >Partial Results</a
-            >
+            href=""
+            class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300"
+            >Create Survey</a
+          >
+       
+          <a
+            href="{% url 'myvotes' username=user.username  %}"
+            class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300"
+            >My Surveys</a
+          >
+         
             <a
               href="{% url 'home' %}"
-              class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
+              class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300"
               >Home</a
             >
             <!-- <a
