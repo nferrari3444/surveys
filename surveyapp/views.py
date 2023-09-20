@@ -225,9 +225,30 @@ def NewSurvey(request):
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
+            question = form.cleaned_data['question']
+            choiceone = form.cleaned_data['choiceone']
+            choicetwo = form.cleaned_data['choicetwo']
+            choicethree = form.cleaned_data['choicethree']
+
+
+            date = form.cleaned_data['date']
+            topic = form.cleaned_data['topic']
+
+            creator = form.cleaned_data['creator']
+
+            survey = Survey(date= date, topic= topic, question= question, creator= creator)
+            survey.save()
+
+            survey_id = Survey.objects.filter(question = question).values_list('id',flat=True).first() 
+            
+            instance = Survey.objects.get(pk=survey_id)
+            choices = Choices(question= instance, choice_1 = choiceone, choice_2 = choicetwo, choice_3 = choicethree)
+            choices.save()
+
+
             # ...
             # redirect to a new URL:
-            return HttpResponseRedirect("/thanks/")
+            return HttpResponseRedirect("/")
 
     # if a GET (or any other method) we'll create a blank form
     else:
