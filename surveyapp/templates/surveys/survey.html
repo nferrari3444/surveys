@@ -8,90 +8,85 @@
 {% block content %}
 
 <nav class="bg-teal-100 shadow-lg">
-    <div class="max-w-6xl mx-auto px-4">
-      <div class="flex flex-row-reverse justify-between">
-        <div class="flex space-x-7">
-          <!-- Website Logo -->
-          <!-- <div>
-            <a href="#" class="flex items-center py-4 px-2">
-              <img src="logo.png" alt="Logo" class="h-8 w-8 mr-2" />
-              <span class="font-semibold text-gray-500 text-lg"
-                >Navigation</span
-              >
-            </a>
-          </div> -->
-          <!-- Primary Navbar items -->
-          <div class="hidden md:flex items-center space-x-1">
-
-            {% if user.is_authenticated %}
-            User: {{ user.get_username }}
-            <a href="{% url 'logout' %}?next={{ request.path }}" 
-            class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Logout</a>
-          {% else %}
-            <a href="{% url 'login' %}?next={{ request.path }}" 
-            class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300">Login</a>
-          {% endif %}
-          
-            <a
-              href=""
-              class="py-4 px-2 text-green-500 border-b-4 border-green-500 font-semibold "
-              >Partial Results</a
+  <div class="max-w-6xl mx-auto">
+    <div class="">
+      <!-- <div class="flex items-center flex space-x-7"> -->
+      <div class="max-w-screen-xl flex flex-wrap items-center justify-between">
+        <!-- Website Logo -->
+         <div class="flex flex-wrap text-left">
+          <!-- <a href="#" class="flex items-center py-4 px-2"> -->
+            <img src="{% static 'media/qs-research-logo.png' %}" alt="Logo" class="h-10 w-10 mr-4" />
+            <span class="font-semibold text-gray-500 text-lg"
+              >QS Research</span
             >
-            <a
-              href="{% url 'home' %}"
-              class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
-              >Home</a
-            >
-            <!-- <a
-               href=""
-              class="py-4 px-2 text-gray-500 font-semibold hover:text-green-500 transition duration-300"
-              >About</a
-            >  -->
-          
-          </div>
-        </div>
-           <!-- Mobile menu button -->
-  <div class="md:hidden flex items-center">
-      <button class="outline-none mobile-menu-button">
-          <svg
-              class="w-6 h-6 text-gray-500"
-              x-show="!showMenu"
-              fill="none"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-          >
-          <path d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-      </button>
-  </div>
-  </div>
-  </div>
-  <!-- Mobile menu -->
-  <div class="hidden mobile-menu">
-      <ul class="">
-          <li class="active"><a href="index.html" class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold">Home</a></li>
-          <li><a href="#services" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Services</a></li>
-          <li><a href="#about" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">About</a></li>
-          <li><a href="#contact" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contact Us</a></li>
-      </ul>
-  </div>
+          <!-- </a> -->
+        </div> 
+        <!-- Primary Navbar items -->
+        <div class="hidden justify-start flex md:flex items-center space-x-1">
         
-  <!-- <script>
-      // Grab HTML Elements
-      const btn = document.querySelector("button.mobile-menu-button");
-      const menu = document.querySelector(".mobile-menu");
-  
-      // Add Event Listeners
-      btn.addEventListener("click", () => {
-      menu.classList.toggle("hidden");
-      });
-  </script> -->
-  
-   
-  </nav>
+
+          {% if user.is_authenticated %}
+     
+          <div class="flex text-black-400 items-center lg:mr-20 sm:mr-0 lm:mr-0">
+          Welcome 
+          <div class="text-red-400 items-center font-medium italic ml-5 lg:mr-20 sm:mr-0 lm:mr-0">
+          {{ user.get_username }}
+          </div>
+          </div>
+    
+     <a href="{% url 'logout' %}?next={{ request.path }}" 
+     class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300">Logout</a>
+   {% else %}
+     <a href="{% url 'login' %}?next={{ request.path }}" 
+     class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300">Login</a>
+   {% endif %}
+
+      
+          <a
+            href="{% url 'submissions' %}"
+            class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300"
+            >View Survey Results</a
+          >
+          <a
+            href="{% url 'myvotes' username=user.username  %}"
+            class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300"
+            >My Surveys</a
+          >
+        
+        </div>
+      </div>
+         <!-- Mobile menu button -->
+<div class="md:hidden flex items-center">
+	<button class="outline-none mobile-menu-button">
+		<svg
+			class="w-6 h-6 text-gray-500"
+			x-show="!showMenu"
+			fill="none"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			stroke-width="2"
+			viewBox="0 0 24 24"
+			stroke="currentColor"
+		>
+		<path d="M4 6h16M4 12h16M4 18h16"></path>
+		</svg>
+	</button>
+</div>
+</div>
+</div>
+<!-- Mobile menu -->
+<div class="hidden mobile-menu">
+	<ul class="">
+		<li class="active"><a href="index.html" class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold">Home</a></li>
+		<li><a href="#services" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Services</a></li>
+		<li><a href="#about" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">About</a></li>
+		<li><a href="#contact" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contact Us</a></li>
+	</ul>
+</div>
+      
+
+ 
+</nav>
 
 <div class="mx-auto flex justify-center w-1/2 mt-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
 
@@ -119,19 +114,19 @@
 
 <div class="flex items-center pl-4 mb-2 mt-4 divide-y divide-gray-200 dark:divide-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
 
-    <input id="bordered-radio-1" type="radio" value="{{option.choice_1}}" name="choice" class="cursor-pointer">
+    <input id="bordered-radio-1" type="radio" value="{{option.choice_1}}" name="choice" class="cursor-pointer" required>
     <label for="bordered-radio-1" class="cursor-pointer w-1/2 py-2 ml-5 italic">{{ option.choice_1 }}</label>
    
 
 </div>
 <div class="flex items-center pl-4 mb-2 divide-y divide-gray-200 dark:divide-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-    <input id="bordered-radio-2" type="radio" value="{{option.choice_2}}" name="choice" class="cursor-pointer">
+    <input id="bordered-radio-2" type="radio" value="{{option.choice_2}}" name="choice" class="cursor-pointer" required>
     
     <label for="bordered-radio-2" class="cursor-pointer w-1/2 border-style py-2 ml-5 italic">{{ option.choice_2 }}</label>
 </div>
 
 <div class="flex items-center pl-4 mb-2 divide-y divide-gray-200 dark:divide-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-    <input id="bordered-radio-3" type="radio" value="{{option.choice_3}}" name="choice" class="cursor-pointer">
+    <input id="bordered-radio-3" type="radio" value="{{option.choice_3}}" name="choice" class="cursor-pointer" required>
     <label for="bordered-radio-3" class="cursor-pointer w-1/2 py-2 ml-5 italic">{{ option.choice_3 }}</label>
 </div>
 
@@ -145,7 +140,29 @@
 
 </div>
 
+<footer class="fixed bottom-0 left-0 z-20 w-full fixed bottom-0 left-0 z-20 w-full bg-teal-100 rounded-lg shadow dark:bg-gray-900">
+  <div class="w-full max-w-screen-xl mx-auto">
+      <div class="flex flex-wrap justify-between">
+        <img src="{% static 'media/qs-research-logo.png' %}" alt="Logo" class="h-14 w-14 mr-4 p-1" />
+      
+        <span class="block items-center text-sm my-6 sm:text-center dark:text-gray-400">© 2023 QS Research™ All Rights Reserved.</span>
 
+       
+          <ul class="flex flex-wrap lg:mr-10 sm:mr-6 lm:mr-6 items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+              <li>
+                  <a href="#" class="mr-4 hover:underline md:mr-6 ">About</a>
+              </li>
+             
+              <li>
+                  <a href="#" class="hover:underline">Contact</a>
+              </li>
+          </ul>
+
+     
+     
+  </div>
+</div>
+</footer> 
 
   
 {% endblock content %}

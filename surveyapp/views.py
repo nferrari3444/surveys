@@ -94,7 +94,7 @@ def SurveyResponse(request, question):
             
             Results.objects.update_or_create(question = newquestion, selectedchoice = choice, votes = 1)
         
-            return HttpResponse('Thank you for voting')
+            return HttpResponseRedirect(request.path_info)
     #raise BadRequest('Invalid request.') #HttpResponseRedirect(request.path_info) #
     
 
@@ -261,6 +261,8 @@ def Login(request):
     # print('login view')
     # print(request)
     page = 'login'
+    # if form.data['first_name'] is None:
+    #     print('si')
     if request.method == 'POST':
 
         email = request.POST.get('email','email')

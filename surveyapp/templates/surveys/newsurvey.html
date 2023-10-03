@@ -88,14 +88,14 @@
  
 </nav>
 
-<div class="mx-auto lg:w-1/2 lm:w-1/2 sm:w-full mt-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+<div class="mx-auto lg:h-1/2 lg:w-1/2 lm:w-1/2 sm:w-3/4 mt-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
 
 <h1 class="mb-4 text-center mt-2 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-2xl dark:text-white">Create New Survey</h1>
 
 <form action="{% url 'newsurvey' %}" method="post">
     {% csrf_token %}
 
-<div class="mx-auto lg:w-full sm:w-full md:w-full grid grid-cols-2 gap-4 sm:col-span-2">
+<div class="lg:w-full sm:w-full md:w-full grid grid-cols-2 gap-2 sm:col-span-2">
 {% for field in form %}
 
     <div class="gap-4">
@@ -109,10 +109,38 @@
 
 {% endfor %}
 
-<button class="bg-blue-500 right-0 hover:bg-blue-700 text-white font-bold mt-5 ml-10 py-2 px-6 text-center rounded" type="submit">Create</button>
+<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 text-center rounded" type="submit">Create</button>
 
 </div>
 
 </form>
+
+
+
 </div>
+
+<footer class="bottom-0 left-0 w-full items-center bg-teal-100 rounded-lg shadow dark:bg-gray-900">
+  <div class="w-full max-w-screen-xl mx-auto items-center">
+      <div class="flex flex-wrap justify-between">
+        <img src="{% static 'media/qs-research-logo.png' %}" alt="Logo" class="h-14 w-14 mr-4 p-1" />
+      
+        <span class="block items-center text-sm my-6 sm:text-center dark:text-gray-400">© 2023 QS Research™ All Rights Reserved.</span>
+
+       
+          <ul class="flex flex-wrap lg:mr-10 sm:mr-6 lm:mr-6 items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+              <li>
+                  <a href="#" class="mr-4 hover:underline md:mr-6 ">About</a>
+              </li>
+             
+              <li>
+                  <a href="#" class="hover:underline">Contact</a>
+              </li>
+          </ul>
+
+     
+     
+  </div>
+</div>
+</footer> 
+
 {% endblock content %}

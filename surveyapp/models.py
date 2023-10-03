@@ -29,7 +29,7 @@ class Survey(models.Model):
     question = models.CharField(max_length=200)
     creator = models.CharField(max_length=100)
     submissions = models.IntegerField(default=0)
-    status = models.CharField(max_length=15, choices=STATUSES)
+    status = models.CharField(max_length=15, choices=STATUSES, default='Pending')
 
 
  

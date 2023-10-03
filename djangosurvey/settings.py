@@ -45,18 +45,23 @@ INSTALLED_APPS = [
     'django_extensions',
     "surveyapp",
     "tailwind",
-     'compressor',
-     'django.contrib.sites',
-      'allauth',
+    'compressor',
+    'django.contrib.sites',
+
+    'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.openid'
     
 ]
 
-SITE_ID = 1
+SITE_ID = 2
 SOCIALACCOUNT_LOGIN_ON_GET=True
+
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_USERNAME_REQURIED=True
 
 COMPRESS_ROOT = BASE_DIR / 'static'
 
@@ -97,10 +102,48 @@ SOCIALACCOUNT_PROVIDERS = {
             "client_id": env("GOOGLE_CLIENT_ID"),
             "secret": env("GOOGLE_CLIENT_SECRET"),
         },
-    }
-}
+    } ,
+  
+    'facebook': {
+    'METHOD': 'oauth2', 
+     'SCOPE': ['email', 'public_profile', 'user_friends'], 
+     'AUTH_PARAMS': {'auth_type': 'reauthenticate'}, 
+     'INIT_PARAMS': {'cookie': True},
+     'FIELDS': [
+         'id',
+         'email',
+         'name',
+         'first_name',
+         'last_name',
+         'verified',
+         'locale',
+         'timezone',
+         'link',
+         'gender',
+         'updated_time'],
+         'EXCHANGE_TOKEN': True,
+         'LOCALE_FUNC': lambda request: 'en_US',
+         'VERIFIED_EMAIL': False,
+         'VERSION':' V2.4',
+         
+           
+      'APP': {
+             'client_id': env("SOCIAL_AUTH_FACEBOOK_KEY"),  # !!! THIS App ID
+             'secret': env("SOCIAL_AUTH_FACEBOOK_SECRET"),
+              'key':''  # !!! THIS App Secret              'key': ''
+                 },    
+                
+        }
+        
+        }
 
 
+#facebook
+SOCIAL_AUTH_FACEBOOK_KEY = env("SOCIAL_AUTH_FACEBOOK_KEY")  # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = env("SOCIAL_AUTH_FACEBOOK_SECRET")#app key
+
+
+#ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -188,3 +231,5 @@ AUTHENTICATION_BACKENDS = [
            'allauth.account.auth_backends.AuthenticationBackend',
 
 ]
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
