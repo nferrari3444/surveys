@@ -189,7 +189,14 @@ DATABASES = {
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 
-
+#gmail_send/settings.py
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ferrarinicolas927e@gmail.com'
+EMAIL_HOST_PASSWORD = 'nmcw ugtr esvq gbtc' #past the key or password app here
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'default from email'
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -233,3 +240,5 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+

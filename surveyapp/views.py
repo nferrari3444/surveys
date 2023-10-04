@@ -12,9 +12,11 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 import itertools
+from django.conf import settings
 from django.contrib import messages
 from itertools import chain
 from .forms import CreateSurvey
+from django.core.mail import send_mail
 
 @login_required
 def SurveyHome(request):
@@ -220,6 +222,11 @@ def Myvotes(request, username):
 def NewSurvey(request):
     # if this is a POST request we need to process the form data
     if request.method == "POST":
+        userId = request.user.id
+        user = User.objects.get(id=userId)
+        user_email = user.email
+
+        print('user',user_email)
         # create a form instance and populate it with data from the request:
         form = CreateSurvey(request.POST)
         # check whether it's valid:
@@ -245,7 +252,32 @@ def NewSurvey(request):
             choices = Choices(question= instance, choice_1 = choiceone, choice_2 = choicetwo, choice_3 = choicethree)
             choices.save()
 
+        #     send_mail(
+        # ...     subject='Add an eye-catching subject',
+        # ...     message='Write an amazing message',
+        # ...     from_email=settings.EMAIL_HOST_USER,
+        # ...     recipient_list=['your_friend@their_email.com'])
 
+            send_mail(
+                subject = 'New Survey Created',
+                message = 'A new survey was created. Check the admin Panel to approve or reject it',
+                from_email = settings.EMAIL_HOST_USER,
+                recipient_list=['nferrari3444@gmail.com'],
+                fail_silently=False,
+                auth_user=None,
+                auth_password=None,
+                connection=None,
+                html_message=None
+            )
+
+
+#             email = EmailMessage(
+#                 subject = 'New Survey Created',
+#                 body = 'A new survey was created. Check the admin Panel to approve or reject it',
+#                 from_email = user_email,
+#                 to = ['ferrarinicolas927@gmail.com'],
+              
+# )
             # ...
             # redirect to a new URL:
             return HttpResponseRedirect("/")
