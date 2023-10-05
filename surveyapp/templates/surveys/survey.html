@@ -87,7 +87,13 @@
 
  
 </nav>
-
+{% for message in messages %}
+{% if 'survey_response' in message.tags %}
+<div class="p-4 mb-4 text-center text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+  <span class="font-medium">{{message}}</span> Choose another survey to vote.
+</div>
+ {% endif %}
+  {% endfor %}
 <div class="mx-auto flex justify-center w-1/2 mt-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
 
 
@@ -97,9 +103,10 @@
 
     <h5>Surveys</h5>
 
-    {% for message in messages %}
+    
+    <!-- {% for message in messages %}
     <div class="alert alert-info">{{message}}</div>
-      {% endfor %}
+      {% endfor %} -->
       
 <div class="mb-4 font-extrabold text-align leading-none tracking-tight text-gray-500 md:text-2xl lg:text-2xl dark:text-white text-center mt-4">{{ question }}
 

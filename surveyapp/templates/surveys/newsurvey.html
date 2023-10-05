@@ -52,6 +52,11 @@
             class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300"
             >My Surveys</a
           >
+          <a
+          href="{% url 'home' %}"
+          class="py-4 px-2 text-gray-500 hover:text-green-500 transition duration-300"
+          >Home</a
+        >
         
         </div>
       </div>
@@ -110,10 +115,27 @@
 {% endfor %}
 
 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 text-center rounded" type="submit">Create</button>
+</div>
+</form>
+{% if messages %}
+{% for message in messages %}
+{% if 'create_survey' in message.tags %}
+<div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+  <span class="font-medium">{{message}}</span> 
+ 
 
+  <a href="{% url 'home' %}?next={{ request.path }}">
+
+  <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 ml-2 mb-2 mt-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Return to Home</button>
+  {% endif %}
+  {% endfor %}
+  
+  {% endif %}
+</a>
+</div>
 </div>
 
-</form>
+
 
 
 

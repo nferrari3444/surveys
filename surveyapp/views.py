@@ -11,6 +11,8 @@ from django.core.exceptions import BadRequest
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 import itertools
 from django.conf import settings
 from django.contrib import messages
@@ -52,32 +54,21 @@ def SurveyResponse(request, question):
     
     print('choicelist', choicelist)
     print('requestmethod', request.method)
-    # questionId = Survey.objects.filter(question = question).values_list('id',flat=True).first()
 
-    # question_db = Survey.objects.filter(id = questionId) 
-    # newquestion = list(question_db)[0]
+    print('question is', question)
 
-    # if Uservotes.objects.filter(question_name= newquestion, username = request.user).exists():
-    #     messages.error(request, "User already voted in this Poll")
-    #     print('request.path_info',request.path_info)
-    #     return HttpResponseRedirect(request.path_info)
-    
     if request.method == 'POST':
-  #  def post(self, request, *args, **kwargs):
-
-        # print('questionId is', question.id)
+ 
         username = request.user
-       # question = Survey.objects.filter(question = question)
+      
         questionId = Survey.objects.filter(question = question).values_list('id',flat=True).first()
 
         print('questionId in querySet' , questionId)
 
-    # idQuestion = list(questionId)[0]
         question_db = Survey.objects.filter(id = questionId)   #.values()
-    # questionId = list(questionId)[0]
-        # print('choice', choice)
+
         print('user', request.user)
-        # print('questionId', questionId) 
+   
         print('question', list(question_db)[0]) 
         newquestion = list(question_db)[0]
     
@@ -85,9 +76,9 @@ def SurveyResponse(request, question):
         print(responseexist)
 
         if Uservotes.objects.filter(question_name= newquestion, username = request.user).exists():
-            messages.error(request, "User already voted in this Poll")
+            messages.error(request, "User already voted in this Poll", extra_tags='survey_response')
             print('request.path_info',request.path_info)
-            return HttpResponseRedirect(request.path_info)
+            return redirect('/%s' % questionId )
         
         else:
 
@@ -97,51 +88,12 @@ def SurveyResponse(request, question):
             Results.objects.update_or_create(question = newquestion, selectedchoice = choice, votes = 1)
         
             return HttpResponseRedirect(request.path_info)
-    #raise BadRequest('Invalid request.') #HttpResponseRedirect(request.path_info) #
+   
     
 
     return redirect('/')  #   return HttpResponse('You should vote for any option or go Home')
     
-        #return HttpResponse('Awesome, thanks for voting!')
-    # username = request.user
-    # print('username', username)
-    # print('question',question)
-
-    # if request.method == 'POST':
-
-    #     if Uservotes.objects.filter(question_name=question, username=request.user).exists():
-    #         print('es un voter')
-    #         messages.info(request, 'User already vote in this Survey!')
-    #         messages.error(request,'User already vote in this Survey')
-
-    #     voters = [username.username for username in Uservotes.objects.filter(question_name=question)]
-    #     print('voters', voters)
-    #     print('request.user', request.user)
-
-    #     if request.user == voters:
-    #         print('es un voter')
-
-    #     choice = request.POST.get('choice','choice')
-    #     print('choice',choice)
-    #     Survey.objects.filter(question=question).update(submissions = F('submissions') + 1 )
-        
-       
-        
-    #     if Uservotes.objects.filter(question_name_id=questionId, username=username).exists():
-    #          messages.info(request, 'User already vote in this Survey!')
-        
-    #     else:
-    #          Uservotes.objects.create(username= username, question_name=question, answer = choice )
-        
-    #     if not Results.objects.filter(question=question, selectedchoice=choice).exists():
-    #         Results.objects.create(question = question, selectedchoice = choice, votes =1)
-            
-    #     else:
-
-    #         Results.objects.filter(question=question, selectedchoice=choice).update(votes = F('votes') +1)
-           
-    # return redirect('/')
-
+  
 
 def Submissions(request):
  
@@ -187,31 +139,9 @@ def Myvotes(request, username):
     votes = Uservotes.objects.select_related('question_name').filter(username=username)  # values().order_by('question_name')
     from django.db.models import F
 
-   # paintings = Uservotes.objects.annotate(name=F('question__name')).all().values()
   
-   # question = Uservotes.objects.filter(username=username).values('question').values()
-   # question_text = Survey.objects.filter(id= votes).values('question')
-   # answers = Uservotes.objects.filter(username=username).values_list(('question', 'answer'), flat=True)
-   # questions_id = [vote['question_id'] for vote in votes]
-   # answers = [vote['answer'] for vote in votes]
-  #  from django.db.models import CharField, Value
-   # print(questions_id)
-  #  surveyinfo = Survey.objects.filter(pk__in = questions_id).values() #_list('question', 'date','submissions') # , flat=True)
-   # surveyinfo_list = list(list(survey) for survey in surveyinfo)      # list(itertools.chain(*surveyinfo))
-   # dd = Uservotes.objects.all().annotate(question=Value('question', output_field=CharField()))
-   # all = Uservotes.objects.all().values()
-   # votes = list(zip(surveyinfo_list,answers))
-   # print('username', username)
     print('votes', votes)
     print('items',items)
-
-   # print('paintings', paintings)
-   # print('all', all)
-   # print('surveyinfo_list', surveyinfo_list)
-   # print('surveyinfo', surveyinfo)
-    # print('answers',answers)
-
-  #  all = list(chain(surveyinfo, votes))
 
     context = {'surveyinfo': votes}
     # context.update({'answers':answers})
@@ -252,12 +182,6 @@ def NewSurvey(request):
             choices = Choices(question= instance, choice_1 = choiceone, choice_2 = choicetwo, choice_3 = choicethree)
             choices.save()
 
-        #     send_mail(
-        # ...     subject='Add an eye-catching subject',
-        # ...     message='Write an amazing message',
-        # ...     from_email=settings.EMAIL_HOST_USER,
-        # ...     recipient_list=['your_friend@their_email.com'])
-
             send_mail(
                 subject = 'New Survey Created',
                 message = 'A new survey was created. Check the admin Panel to approve or reject it',
@@ -270,17 +194,10 @@ def NewSurvey(request):
                 html_message=None
             )
 
-
-#             email = EmailMessage(
-#                 subject = 'New Survey Created',
-#                 body = 'A new survey was created. Check the admin Panel to approve or reject it',
-#                 from_email = user_email,
-#                 to = ['ferrarinicolas927@gmail.com'],
-              
-# )
-            # ...
+            messages.info(request, 'Survey was created with success and is waiting for approval', extra_tags='create_survey')
+            # return render(request, 'registration/login.html')
             # redirect to a new URL:
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect("/createsurvey")
 
     # if a GET (or any other method) we'll create a blank form
     else:
@@ -290,23 +207,37 @@ def NewSurvey(request):
 
 def Login(request):
 
-    # print('login view')
-    # print(request)
     page = 'login'
-    # if form.data['first_name'] is None:
-    #     print('si')
+    
     if request.method == 'POST':
 
         email = request.POST.get('email','email')
-
-        #email = request.POST['email']
         
-        username = User.objects.filter(email=email).values_list('username', flat=True)
+        try:
+            validate_email(email)
+        except ValidationError as e:
+            print("bad email, details:", e)
+            messages.error(request, 'Email should contain @', extra_tags='login')
+            return render(request, 'registration/login.html')
 
+        username = User.objects.filter(email=email).values_list('username', flat=True)
+        password = request.POST.get('password','password')
+    
+        print('usernameLength' , len(username))
+        print('passwordLength', len(password))
+
+        print('username' , username)
+        print('password', password)
+
+        if len(username) == 0 | len(password) == 0:
+            messages.error(request, "Should add a user Name and password to Log In", extra_tags='login')
+            return render(request, 'registration/login.html')
+        
+        
         print('username' , username)
         username = username[0]
         # user_ = self.cleaned_data.get('email')
-        password = request.POST.get('password','password')
+        
 
        # password = request.POST['password']
 
@@ -350,9 +281,19 @@ def Register(request):
 
     if request.method == 'POST':
 
+
         username = request.POST.get('username','username')    
         email = request.POST.get('email','email')
 
+ 
+        
+        try:
+            validate_email(email)
+        except ValidationError as e:
+            print("bad email, details:", e)
+            messages.error(request, 'Email should contain @', extra_tags='register')
+            return render(request, 'registration/register.html')
+        
         # user_ = self.cleaned_data.get('email')
         password = request.POST.get('password','password')
 
