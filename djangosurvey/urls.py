@@ -21,11 +21,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('surveyapp.urls')),
-    # path("__reload__/", include("django_browser_reload.urls")),
+ 
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
-
-    #  path('', include('allauth.urls')),
+     path('social-auth/', include('social_django.urls', namespace='social')),
     
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

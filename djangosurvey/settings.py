@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     "tailwind",
     'compressor',
     'django.contrib.sites',
-
+    'social_django',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -92,6 +92,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+     'social_django.middleware.SocialAuthExceptionMiddleware',
+     
     #  "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
@@ -116,36 +118,36 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     } ,
   
-    'facebook': {
-    'METHOD': 'oauth2', 
-     'SCOPE': ['email', 'public_profile', 'user_friends'], 
-     'AUTH_PARAMS': {'auth_type': 'reauthenticate'}, 
-     'INIT_PARAMS': {'cookie': True},
-     'FIELDS': [
-         'id',
-         'email',
-         'name',
-         'first_name',
-         'last_name',
-         'verified',
-         'locale',
-         'timezone',
-         'link',
-         'gender',
-         'updated_time'],
-         'EXCHANGE_TOKEN': True,
-         'LOCALE_FUNC': lambda request: 'en_US',
-         'VERIFIED_EMAIL': False,
-         'VERSION':' V2.4',
+    # 'facebook': {
+    # 'METHOD': 'js_sdk', 
+    #  'SCOPE': ['email', 'public_profile', 'user_friends'], 
+    #  'AUTH_PARAMS': {'auth_type': 'reauthenticate'}, 
+    #  'INIT_PARAMS': {'cookie': True},
+    #  'FIELDS': [
+    #      'id',
+    #      'email',
+    #      'name',
+    #      'first_name',
+    #      'last_name',
+    #      'verified',
+    #      'locale',
+    #      'timezone',
+    #      'link',
+    #      'gender',
+    #      'updated_time'],
+    #      'EXCHANGE_TOKEN': True,
+    #      'LOCALE_FUNC': lambda request: 'en_US',
+    #      'VERIFIED_EMAIL': False,
+    #      'VERSION':' V2.4',
          
            
-      'APP': {
-             'client_id': env("SOCIAL_AUTH_FACEBOOK_KEY"),  # !!! THIS App ID
-             'secret': env("SOCIAL_AUTH_FACEBOOK_SECRET"),
-              'key':''  # !!! THIS App Secret              'key': ''
-                 },    
+    #   'APP': {
+    #          'client_id': env("SOCIAL_AUTH_FACEBOOK_KEY"),  # !!! THIS App ID
+    #          'secret': env("SOCIAL_AUTH_FACEBOOK_SECRET"),
+    #           'key':''  # !!! THIS App Secret              'key': ''
+    #              },    
                 
-        }
+    #     }
         
         }
 
@@ -181,6 +183,8 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "django.template.context_processors.request",
+                 'social_django.context_processors.backends',
+                 
             ],
         },
     },
@@ -246,11 +250,24 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTHENTICATION_BACKENDS = [
+            'social_core.backends.github.GithubOAuth2',
           'django.contrib.auth.backends.ModelBackend',
            'allauth.account.auth_backends.AuthenticationBackend',
+            
+            'social_core.backends.facebook.FacebookOAuth2',
+  
 
 ]
 
-ACCOUNT_EMAIL_VERIFICATION = 'none'
+#for extra info
+SOCIAL_AUTH_FACEBOOK_SCOPE = [
+    'email',
+]
+
+
+SOCIAL_AUTH_GITHUB_KEY = 'acefef149cac0f5462b8'
+SOCIAL_AUTH_GITHUB_SECRET = '0a2799d429d1b1ab27293248d62305e46d8c9ee8'
+
+#ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
