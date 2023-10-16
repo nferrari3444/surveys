@@ -9,7 +9,7 @@ django-tailwind==3.6.0
 django-tailwindcss==0.4.0
 django_debug_toolbar==3.8.1
 django-allauth==0.55.2
-boto3==1.17.112
-botocore==1.21.8
+boto3==1.23.10
+botocore==1.26.10
 
 
