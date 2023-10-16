@@ -61,7 +61,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.openid'
 ]
 
@@ -113,9 +112,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
 
 
-#facebook
-SOCIAL_AUTH_FACEBOOK_KEY = env("SOCIAL_AUTH_FACEBOOK_KEY")  # App ID
-SOCIAL_AUTH_FACEBOOK_SECRET = env("SOCIAL_AUTH_FACEBOOK_SECRET")#app key
+
 
 
 #ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
