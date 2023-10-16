@@ -31,8 +31,8 @@ SECRET_KEY = "django-insecure-oqj1+ec6=nf-06m+hd7qb*3mbky!a1eq1inp0x6%)q(6a4b5^b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS = ['.vercel.app'] # Allow *.vercel.app
 
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',
@@ -157,12 +157,12 @@ WSGI_APPLICATION = "djangosurvey.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 
 DATABASES = {
@@ -170,10 +170,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'URL': env('DATABASE_URL'),
         'NAME': env('PGDATABASE'),
-        'USER': env('PGUSER'),
+        'USER': 'postgres',
         'PASSWORD': env('PGPASSWORD'),
          'HOST': env('PGHOST'),
-         'PORT': env('PGPORT'),
+         'PORT': 7723,
     }
 }
 
