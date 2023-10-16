@@ -44,7 +44,7 @@ function pollResultsData(data) {
     var chart = new CanvasJS.Chart(chartContainer, {
 
 
-
+        responsive:true,
         exportEnabled: false,
         animationEnabled: true,
         title:{
@@ -54,7 +54,8 @@ function pollResultsData(data) {
             text: ""
         }], 
         axisX: {
-            title: "Choices"
+            title: "Choices" ,
+            display: false
         },
         axisY: {
             title: "Votes",
@@ -86,6 +87,16 @@ function pollResultsData(data) {
 
              ]
         }],
+
+    
+        options: {
+            
+            scales:{
+                x: [{
+                    ticks: { callback: () => ('') } //this will remove all the x-axis grid lines
+                }]
+            }
+        }
         
         
      }) ;

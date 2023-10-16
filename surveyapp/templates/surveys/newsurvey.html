@@ -81,11 +81,25 @@
 </div>
 <!-- Mobile menu -->
 <div class="hidden mobile-menu">
-	<ul class="">
-		<li class="active"><a href="index.html" class="block text-sm px-2 py-4 text-white bg-green-500 font-semibold">Home</a></li>
-		<li><a href="#services" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Services</a></li>
+    <ul class="">
+      {% if user.is_authenticated %}
+      <li class="mb-1 text-center text-green-500 hover:text-green-900 hover:bg-gray-200">
+    <a href="{% url 'logout' %}?next={{ request.path }}" 
+      class="mb-2 text-gray-500 hover:text-green-500 duration-300">Logout</a>
+    {% else %}
+      <a href="{% url 'login' %}?next={{ request.path }}" 
+      class="mb-1 text-gray-500 hover:text-green-500 transition duration-300">Login</a>
+    </li>
+    {% endif %}
+      <li class="mb-1 text-center hover:text-green-900 hover:bg-gray-200"><a href="{% url 'submissions' %}" class="mb-2 text-gray-500 hover:text-green-500 transition duration-300">View Survey Results</a></li>
+      <li class="mb-1 text-center hover:text-green-900 hover:bg-gray-200"><a href="{% url 'myvotes' username=user.username  %}" class="mb-2 text-gray-500 hover:text-green-500 transition duration-300">My Surveys</a></li>
+      <li class="mb-1 text-center hover:text-green-900 hover:bg-gray-200"><a href="{% url 'myvotes' username=user.username  %}" class="mb-2 text-gray-500 hover:text-green-500 transition duration-300">Home</a>      
+      </li>
+    </ul>
+
+    <!-- <li><a href="#services" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Services</a></li>
 		<li><a href="#about" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">About</a></li>
-		<li><a href="#contact" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contact Us</a></li>
+		<li><a href="#contact" class="block text-sm px-2 py-4 hover:bg-green-500 transition duration-300">Contact Us</a></li> -->
 	</ul>
 </div>
       
@@ -164,5 +178,5 @@
   </div>
 </div>
 </footer> 
-
+<script src="{% static 'js/toggle.js' %}"></script>
 {% endblock content %}

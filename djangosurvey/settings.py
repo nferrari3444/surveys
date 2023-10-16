@@ -34,9 +34,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-
-
-
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',
         messages.INFO: 'alert-info',
@@ -66,7 +63,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
     # 'allauth.socialaccount.providers.openid'
-    
 ]
 
 SITE_ID = 2
@@ -99,9 +95,6 @@ MIDDLEWARE = [
 
 # AUTH_USER_MODEL = "user.User"
 
-
-
-
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'SCOPE': [
@@ -116,39 +109,7 @@ SOCIALACCOUNT_PROVIDERS = {
             "client_id": env("GOOGLE_CLIENT_ID"),
             "secret": env("GOOGLE_CLIENT_SECRET"),
         },
-    } ,
-  
-    # 'facebook': {
-    # 'METHOD': 'js_sdk', 
-    #  'SCOPE': ['email', 'public_profile', 'user_friends'], 
-    #  'AUTH_PARAMS': {'auth_type': 'reauthenticate'}, 
-    #  'INIT_PARAMS': {'cookie': True},
-    #  'FIELDS': [
-    #      'id',
-    #      'email',
-    #      'name',
-    #      'first_name',
-    #      'last_name',
-    #      'verified',
-    #      'locale',
-    #      'timezone',
-    #      'link',
-    #      'gender',
-    #      'updated_time'],
-    #      'EXCHANGE_TOKEN': True,
-    #      'LOCALE_FUNC': lambda request: 'en_US',
-    #      'VERIFIED_EMAIL': False,
-    #      'VERSION':' V2.4',
-         
-           
-    #   'APP': {
-    #          'client_id': env("SOCIAL_AUTH_FACEBOOK_KEY"),  # !!! THIS App ID
-    #          'secret': env("SOCIAL_AUTH_FACEBOOK_SECRET"),
-    #           'key':''  # !!! THIS App Secret              'key': ''
-    #              },    
-                
-    #     }
-        
+    } ,  
         }
 
 
@@ -202,6 +163,20 @@ DATABASES = {
         "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'URL': env('DATABASE_URL'),
+        'NAME': env('PGDATABASE'),
+        'USER': env('PGUSER'),
+        'PASSWORD': env('PGPASSWORD'),
+         'HOST': env('PGHOST'),
+         'PORT': env('PGPORT'),
+    }
+}
+
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 
@@ -268,5 +243,4 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
 SOCIAL_AUTH_GITHUB_KEY = env("SOCIAL_AUTH_GITHUB_KEY")
 SOCIAL_AUTH_GITHUB_SECRET = env("SOCIAL_AUTH_GITHUB_SECRET")
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
-
 
