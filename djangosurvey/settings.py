@@ -51,9 +51,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    
     "surveyapp",
     "tailwind",
+    "storages",
     'compressor',
     'django.contrib.sites',
     'social_django',
@@ -112,6 +112,15 @@ SOCIALACCOUNT_PROVIDERS = {
         }
 
 
+AWS_STORAGE_BUCKET_NAME= 'django-portfolio-nicolas'
+AWS_S3_REGION_NAME = 'us-east-1'
+AWS_ACCESS_KEY_ID =     'AKIAZ2VRG6CP2YYH2NRZ'
+AWS_SECRET_ACCESS_KEY= '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'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_DEFAULT_ACL= None
+
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'custom_storages.StaticStorage'
 
 
 
@@ -128,6 +137,17 @@ ROOT_URLCONF = "djangosurvey.urls"
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
 
+STATICFILES_LOCATION = 'static'
+STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+
+MEDIAFILES_LOCATION = 'media'
+DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR
 
 TEMPLATES = [
     {
@@ -213,8 +233,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = "/static/"
-#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
