@@ -119,8 +119,6 @@ AWS_SECRET_ACCESS_KEY= 'eDiZ4h7u1wxYD+8Pug/iNkg6dUpPlC9AQK4oqeZc'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_DEFAULT_ACL= None
 
-STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'custom_storages.StaticStorage'
 
 
 
