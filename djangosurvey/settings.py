@@ -113,7 +113,7 @@ SOCIALACCOUNT_PROVIDERS = {
         }
 
 
-AWS_STORAGE_BUCKET_NAME= 'django-portfolio-nicolas'
+AWS_STORAGE_BUCKET_NAME= 'survey-site-django-nicolas'
 AWS_S3_REGION_NAME = 'us-east-1'
 AWS_ACCESS_KEY_ID =     'AKIAZ2VRG6CP2YYH2NRZ'
 AWS_SECRET_ACCESS_KEY= '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'
