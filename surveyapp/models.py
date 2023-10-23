@@ -3,7 +3,7 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 # Create your models here.
-
+from django.db.models import Count, F, Value
 
 class Users(models.Model):
     username = models.CharField(max_length=100)
@@ -31,9 +31,6 @@ class Survey(models.Model):
     submissions = models.IntegerField(default=0)
     status = models.CharField(max_length=15, choices=STATUSES, default='Pending')
 
-
- 
-
     def __str__(self):
         return self.question
 
@@ -50,7 +47,8 @@ class Results(models.Model):
     selectedchoice = models.CharField(max_length=100)
     votes = models.IntegerField(default=0)
    # user = models.CharField(max_length=50)
-
+   
+  
 class Uservotes(models.Model):
    
     class Meta:

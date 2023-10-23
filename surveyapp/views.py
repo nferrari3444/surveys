@@ -54,6 +54,8 @@ def SurveyResponse(request, surveyID):
     choicelist = request.POST.getlist('choice')
     
     print('choicelist', choicelist)
+
+    print('choice', choice)
     print('requestmethod', request.method)
 
     print('question is', surveyID)
@@ -65,17 +67,25 @@ def SurveyResponse(request, surveyID):
       
        # questionId = Survey.objects.filter(question = question).values_list('id',flat=True).first()
 
-        print('questionId in querySet' , surveyID)
+      
 
         question_db = Survey.objects.filter(id = surveyID)   #.values()
 
-        print('user', request.user)
-   
-        print('question', list(question_db)[0]) 
+      
         newquestion = list(question_db)[0]
     
-        responseexist = Uservotes.objects.filter(question_name= newquestion, username = request.user).exists()
-        print(responseexist)
+      
+        # survey = Survey.objects.filter(id=surveyID)
+        # surveyQuestion = Survey.objects.filter(question= surveyID)
+        
+        # votes =  Results.objects.filter(question = newquestion).filter(selectedchoice=choice).values_list('votes')
+        
+        # print('votes', votes)
+
+
+        # print('survey', survey)
+        # print('surveyQuestion', surveyQuestion)
+        # print('newquestion', newquestion)
 
         if Uservotes.objects.filter(question_name= newquestion, username = request.user).exists():
             messages.error(request, "User already voted in this Poll", extra_tags='survey_response')
@@ -85,12 +95,19 @@ def SurveyResponse(request, surveyID):
         else:
 
             Uservotes.objects.create(username= username, question_name=  newquestion, answer = choice )
-            #Survey.objects.filter(question=question).update(submissions = F('submissions') + 1 )
+            #Survey.objects.filter(question= question_db).update(submissions = F('submissions') + 1 )
             Survey.objects.filter(id=surveyID).update(submissions = F('submissions') + 1 )
             
-            Results.objects.update_or_create(question = newquestion, selectedchoice = choice, votes = 1)
+            if not Results.objects.filter(question= newquestion, selectedchoice=choice).exists():
+                Results.objects.create(question = newquestion, selectedchoice = choice, votes =1)
+
+            else:
+
+                Results.objects.filter(question= newquestion, selectedchoice=choice).update(votes = F('votes') +1)
+          
+            #Results.objects.update_or_create(question = newquestion, selectedchoice = choice, votes =  1)
         
-            return HttpResponseRedirect(request.path_info)
+        return HttpResponseRedirect(request.path_info)
    
     
 
@@ -140,7 +157,7 @@ def Myvotes(request, username):
     print('username', username)
     items = Uservotes.objects.select_related('question').filter(username=username).values()
     votes = Uservotes.objects.select_related('question_name').filter(username=username)  # values().order_by('question_name')
-    from django.db.models import F
+   
 
   
     print('votes', votes)
