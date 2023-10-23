@@ -10,7 +10,7 @@ urlpatterns = [
 
     path('', views.SurveyHome, name='home'),
     path('<int:surveyID>', views.QuestionList, name='surveyoptions'),
-    path('choices/<str:question>', views.SurveyResponse, name='choices'),
+    path('choices/<int:surveyID>', views.SurveyResponse, name='choices'),
     path('submissions/', views.Submissions, name='submissions'),
     path('results/<int:questionId>', views.Pollresults, name='results'),
     path('myvotes/<str:username>', views.Myvotes, name='myvotes'),

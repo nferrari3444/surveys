@@ -45,10 +45,10 @@ def QuestionList(request, surveyID):
     
     return render(request,              
                 'surveys/survey.html',
-                {'options': options, 'question': mainquestion})
+                {'options': options, 'question': mainquestion, 'surveyID': surveyID})
 
 #@login_required
-def SurveyResponse(request, question):
+def SurveyResponse(request, surveyID):
     choice = request.POST.get('choice','choice')
     
     choicelist = request.POST.getlist('choice')
@@ -56,21 +56,18 @@ def SurveyResponse(request, question):
     print('choicelist', choicelist)
     print('requestmethod', request.method)
 
-    print('question is', question)
-    
-    cleanString = re.sub('\W+','', question)
-    print('cleanstring', cleanString)
+    print('question is', surveyID)
 
 
     if request.method == 'POST':
  
         username = request.user
       
-        questionId = Survey.objects.filter(question = question).values_list('id',flat=True).first()
+       # questionId = Survey.objects.filter(question = question).values_list('id',flat=True).first()
 
-        print('questionId in querySet' , questionId)
+        print('questionId in querySet' , surveyID)
 
-        question_db = Survey.objects.filter(id = questionId)   #.values()
+        question_db = Survey.objects.filter(id = surveyID)   #.values()
 
         print('user', request.user)
    
@@ -83,12 +80,13 @@ def SurveyResponse(request, question):
         if Uservotes.objects.filter(question_name= newquestion, username = request.user).exists():
             messages.error(request, "User already voted in this Poll", extra_tags='survey_response')
             print('request.path_info',request.path_info)
-            return redirect('/%s' % questionId )
+            return redirect('/%s' % surveyID )
         
         else:
 
             Uservotes.objects.create(username= username, question_name=  newquestion, answer = choice )
-            Survey.objects.filter(question=question).update(submissions = F('submissions') + 1 )
+            #Survey.objects.filter(question=question).update(submissions = F('submissions') + 1 )
+            Survey.objects.filter(id=surveyID).update(submissions = F('submissions') + 1 )
             
             Results.objects.update_or_create(question = newquestion, selectedchoice = choice, votes = 1)
         
