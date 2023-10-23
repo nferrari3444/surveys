@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 import itertools
+import re
 from django.conf import settings
 from django.contrib import messages
 from itertools import chain
@@ -56,6 +57,10 @@ def SurveyResponse(request, question):
     print('requestmethod', request.method)
 
     print('question is', question)
+    
+    cleanString = re.sub('\W+','', question)
+    print('cleanstring', cleanString)
+
 
     if request.method == 'POST':
  
