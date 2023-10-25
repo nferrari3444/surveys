@@ -23,7 +23,7 @@ class Survey(models.Model):
         ('Finished', 'Finished')
     ]
 
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     date = models.DateField()
     topic = models.CharField(max_length=50, default='hola')
     question = models.CharField(max_length=200)
