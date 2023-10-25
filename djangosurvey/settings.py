@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-oqj1+ec6=nf-06m+hd7qb*3mbky!a1eq1inp0x6%)q(6a4b5^b"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['127.0.0.1','.vercel.app'] # Allow *.vercel.app
@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'debug_toolbar'
     # 'allauth.socialaccount.providers.openid'
 ]
 
@@ -89,7 +90,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
      'social_django.middleware.SocialAuthExceptionMiddleware',
-     
+     'debug_toolbar.middleware.DebugToolbarMiddleware',
     #  "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
@@ -144,7 +145,7 @@ DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
 AWS_S3_SECURE_URLS = True
 STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
-# STATIC_URL = "/static/"
+#STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
@@ -170,6 +171,24 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "djangosurvey.wsgi.application"
+
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
+
+# def show_toolbar(request):                                     # <-- NEW
+#     return True                                                # <-- NEW 
+
+# DEBUG_TOOLBAR_CONFIG = {                                       # <-- NEW
+#     "SHOW_TOOLBAR_CALLBACK" : show_toolbar,                    # <-- NEW
+# }                                                              # <-- NEW
+
+# if DEBUG:                                                      # <-- NEW
+#     import mimetypes                                           # <-- NEW          
+#     mimetypes.add_type("application/javascript", ".js", True) 
+
 
 
 # Database
@@ -261,3 +280,17 @@ SOCIAL_AUTH_GITHUB_KEY = env("SOCIAL_AUTH_GITHUB_KEY")
 SOCIAL_AUTH_GITHUB_SECRET = env("SOCIAL_AUTH_GITHUB_SECRET")
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+# DEBUG_TOOLBAR_PANELS = [
+#     'debug_toolbar.panels.versions.VersionsPanel',
+#     'debug_toolbar.panels.timer.TimerPanel',
+#     'debug_toolbar.panels.settings.SettingsPanel',
+#     'debug_toolbar.panels.headers.HeadersPanel',
+#     'debug_toolbar.panels.request.RequestPanel',
+#     'debug_toolbar.panels.sql.SQLPanel',
+#     'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+#     'debug_toolbar.panels.templates.TemplatesPanel',
+#     'debug_toolbar.panels.cache.CachePanel',
+#     'debug_toolbar.panels.signals.SignalsPanel',
+#     'debug_toolbar.panels.logging.LoggingPanel',
+#     'debug_toolbar.panels.redirects.RedirectsPanel',
+# ]

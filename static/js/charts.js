@@ -1,25 +1,16 @@
 function pollResultsData(data) {
 
-
-    
-    console.log('dataaaaa', data)
-
     const data_ = data['pollInfo']
 
     const question = data['question']
     const choices = []
     const values = []
 
+    console.log('data_', data_)
+    
     data_.map((item => choices.push(item['selectedchoice'])))
 
     data_.map((item => values.push(item['votes'])))
-
-    console.log('choices', choices)
-
-    console.log('values', values)
-
-    console.log(choices[0])
-    console.log(choices[1])
 
     document.querySelector(".modal-fader").className += " active";
     document.querySelector('#myModal').className += " active";
@@ -50,12 +41,11 @@ function pollResultsData(data) {
         title:{
             text: question
         },
-        subtitles: [{
-            text: ""
-        }], 
+       
         axisX: {
             title: "Choices" ,
-            display: false
+            interval: 2,
+         
         },
         axisY: {
             title: "Votes",
@@ -74,10 +64,11 @@ function pollResultsData(data) {
            // itemclick: toggleDataSeries
         },
         data: [{
-            type: "column",
+            type: "bar",
             name: "Votes",
             showInLegend: true,      
-            yValueFormatString: "#,##0.#",
+            legendMarkerColor: "grey",
+            // yValueFormatString: "#,##0.#",
             
              dataPoints: [
                  { label: choices[0], y: values[0] }, 
@@ -88,17 +79,7 @@ function pollResultsData(data) {
              ]
         }],
 
-    
-        options: {
-            
-            scales:{
-                x: [{
-                    ticks: { callback: () => ('') } //this will remove all the x-axis grid lines
-                }]
-            }
-        }
-        
-        
+  
      }) ;
     chart.render();
 

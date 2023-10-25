@@ -15,5 +15,6 @@ botocore==1.26.10
 social-auth-app-django==5.3.0
 social-auth-core==4.4.2
 psycopg2-binary==2.9.5
+django_debug_toolbar==3.8.1
 
 
