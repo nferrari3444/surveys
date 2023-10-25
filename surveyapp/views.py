@@ -156,7 +156,7 @@ def Myvotes(request, username):
     print('user', user)
     print('username', username)
 
-    username = re.sub('[^0-9a-zA-Z]+', ' ', username)
+    username = re.sub('[^a-zA-Z]+', ' ', username)
     print('clean username', username)
 
 
