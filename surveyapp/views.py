@@ -153,8 +153,13 @@ def Myvotes(request, username):
 
     user = User.objects.filter(username=username)
   #  .select_related('sensor') 
-
+    print('user', user)
     print('username', username)
+
+    username = re.sub('[^0-9a-zA-Z]+', ' ', username)
+    print('clean username', username)
+
+
     items = Uservotes.objects.select_related('question').filter(username=username).values()
     votes = Uservotes.objects.select_related('question_name').filter(username=username)  # values().order_by('question_name')
    
