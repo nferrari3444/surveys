@@ -32,7 +32,7 @@ SECRET_KEY = "django-insecure-oqj1+ec6=nf-06m+hd7qb*3mbky!a1eq1inp0x6%)q(6a4b5^b
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['127.0.0.1','.vercel.app'] # Allow *.vercel.app
+ALLOWED_HOSTS = ['127.0.0.1','*.vercel.app'] # Allow *.vercel.app
 
 
 
@@ -173,7 +173,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': env('PGPASSWORD'),
          'HOST': env('PGHOST'),
-         'PORT': 7723,
+         'PORT': 36295,
     }
 }
 

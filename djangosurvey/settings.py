@@ -32,7 +32,7 @@ SECRET_KEY = "django-insecure-oqj1+ec6=nf-06m+hd7qb*3mbky!a1eq1inp0x6%)q(6a4b5^b
 DEBUG = False
 
 
-ALLOWED_HOSTS = ['127.0.0.1','.vercel.app'] # Allow *.vercel.app
+ALLOWED_HOSTS = ['127.0.0.1','.vercel.app','localhost'] # Allow *.vercel.app
 
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',
@@ -194,25 +194,25 @@ INTERNAL_IPS = [
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'URL': env('DATABASE_URL'),
-        'NAME': env('PGDATABASE'),
-        'USER': 'postgres',
-        'PASSWORD': env('PGPASSWORD'),
-         'HOST': env('PGHOST'),
-         'PORT': 7723,
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'URL': env('DATABASE_URL'),
+#         'NAME': env('PGDATABASE'),
+#         'USER': 'postgres',
+#         'PASSWORD': env('PGPASSWORD'),
+#          'HOST': env('PGHOST'),
+#          'PORT': 7723,
+#     }
+# }
 
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
