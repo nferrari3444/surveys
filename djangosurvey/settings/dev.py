@@ -12,11 +12,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-import environ
 from django.contrib.messages import constants as messages
-# Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
+from .base import *
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +29,7 @@ SECRET_KEY = "django-insecure-oqj1+ec6=nf-06m+hd7qb*3mbky!a1eq1inp0x6%)q(6a4b5^b
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['127.0.0.1','.vercel.app'] # Allow *.vercel.app
+ALLOWED_HOSTS = ['127.0.0.1','.vercel.app','localhost'] # Allow *.vercel.app
 
 
 # Application definition
@@ -63,11 +60,15 @@ SOCIALACCOUNT_LOGIN_ON_GET=True
 ACCOUNT_EMAIL_REQUIRED=True
 ACCOUNT_USERNAME_REQURIED=True
 
-COMPRESS_ROOT = BASE_DIR / 'static'
+COMPRESS_ROOT = Path(__file__).resolve().parent.parent.parent / 'static'
 
 COMPRESS_ENABLED = True
 
-STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+]
 
 # TAILWIND_APP_NAME = 'theme'
 # INTERNAL_IPS = ["127.0.0.1",]
@@ -80,8 +81,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-     'social_django.middleware.SocialAuthExceptionMiddleware',
-     
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'allauth.account.middleware.AccountMiddleware', 
     #  "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
@@ -98,8 +99,8 @@ SOCIALACCOUNT_PROVIDERS = {
         },
 
         "APP": {
-            "client_id": env("GOOGLE_CLIENT_ID"),
-            "secret": env("GOOGLE_CLIENT_SECRET"),
+            "client_id": os.getenv("GOOGLE_CLIENT_ID"),
+            "secret": os.getenv("GOOGLE_CLIENT_SECRET"),
         },
     } ,  
         }
@@ -126,16 +127,12 @@ LOGIN_URL = '/accounts/login/'
 
 ROOT_URLCONF = "djangosurvey.urls"
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
+STATICFILES_DIRS = [Path(__file__).resolve().parent.parent.parent / 'static']
 
-STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'custom_storages.StaticStorage'
-
-MEDIAFILES_LOCATION = 'media'
-DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = Path(__file__).resolve().parent.parent.parent / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR
@@ -165,37 +162,29 @@ WSGI_APPLICATION = "djangosurvey.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
-
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'URL': env('DATABASE_URL'),
-#         'NAME': env('PGDATABASE'),
-#         'USER': 'postgres',
-#         'PASSWORD': env('PGPASSWORD'),
-#          'HOST': env('PGHOST'),
-#          'PORT': 7723,
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
 
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'URL': os.getenv('DB_SURVEY_DEVELOPMENT_URL'),
+        'NAME': os.getenv('DB_SURVEY_DEVELOPMENT_NAME'),
+        'USER': os.getenv('DB_SURVEY_DEVELOPMENT_USER'),
+        'PASSWORD': os.getenv('DB_SURVEY_DEVELOPMENT_PASSWORD'),
+        'HOST': os.getenv('DB_SURVEY_DEVELOPMENT_HOST'),
+        'PORT': os.getenv('DB_SURVEY_DEVELOPMENT_PORT'),
+    }
+}
+
+
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 
-#gmail_send/settings.py
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ferrarinicolas927@gmail.com'
-EMAIL_HOST_PASSWORD =  env("EMAIL_HOST_PASSWORD") #past the key or password app here
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'default from email'
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -247,7 +236,7 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
 ]
 
 
-SOCIAL_AUTH_GITHUB_KEY = env("SOCIAL_AUTH_GITHUB_KEY")
-SOCIAL_AUTH_GITHUB_SECRET = env("SOCIAL_AUTH_GITHUB_SECRET")
+SOCIAL_AUTH_GITHUB_KEY = os.getenv("SOCIAL_AUTH_GITHUB_KEY")
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv("SOCIAL_AUTH_GITHUB_SECRET")
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 

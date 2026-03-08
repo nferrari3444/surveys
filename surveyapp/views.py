@@ -124,9 +124,7 @@ def Submissions(request):
     return render(request, 'surveys/submissions.html', context)
 
 def Pollresults(request, questionId):
-
-
-
+    
     results = Results.objects.all()
     print('questionId', questionId)
 

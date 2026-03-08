@@ -16,7 +16,7 @@ import environ
 from django.contrib.messages import constants as messages
 # Initialise environment variables
 env = environ.Env()
-environ.Env.read_env()
+environ.Env.read_env(Path(__file__).resolve().parent.parent.parent / '.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,11 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-oqj1+ec6=nf-06m+hd7qb*3mbky!a1eq1inp0x6%)q(6a4b5^b"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
+DEBUG=False
 
 ALLOWED_HOSTS = ['127.0.0.1','*.vercel.app'] # Allow *.vercel.app
-
 
 
 # Application definition
@@ -81,7 +79,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-     'social_django.middleware.SocialAuthExceptionMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
      
     #  "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
@@ -99,8 +98,8 @@ SOCIALACCOUNT_PROVIDERS = {
         },
 
         "APP": {
-            "client_id": env("GOOGLE_CLIENT_ID"),
-            "secret": env("GOOGLE_CLIENT_SECRET"),
+            "client_id": os.getenv("GOOGLE_CLIENT_ID"),
+            "secret": os.getenv("GOOGLE_CLIENT_SECRET"),
         },
     } ,  
         }
@@ -165,17 +164,6 @@ WSGI_APPLICATION = "djangosurvey.wsgi.application"
 
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'URL': env('DATABASE_URL'),
-        'NAME': env('PGDATABASE'),
-        'USER': 'postgres',
-        'PASSWORD': env('PGPASSWORD'),
-         'HOST': env('PGHOST'),
-         'PORT': 36295,
-    }
-}
 
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
@@ -184,7 +172,7 @@ DATABASES = {
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'ferrarinicolas927@gmail.com'
-EMAIL_HOST_PASSWORD =  env("EMAIL_HOST_PASSWORD") #past the key or password app here
+EMAIL_HOST_PASSWORD =  os.getenv("EMAIL_HOST_PASSWORD") #past the key or password app here
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'default from email'
@@ -218,6 +206,15 @@ USE_TZ = True
 
 
 
+#gmail_send/settings.py
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'ferrarinicolas927@gmail.com'
+EMAIL_HOST_PASSWORD =  os.getenv("EMAIL_HOST_PASSWORD") #past the key or password app here
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'default from email'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -239,7 +236,7 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
 ]
 
 
-SOCIAL_AUTH_GITHUB_KEY = env("SOCIAL_AUTH_GITHUB_KEY")
-SOCIAL_AUTH_GITHUB_SECRET = env("SOCIAL_AUTH_GITHUB_SECRET")
+SOCIAL_AUTH_GITHUB_KEY = os.getenv("SOCIAL_AUTH_GITHUB_KEY")
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv("SOCIAL_AUTH_GITHUB_SECRET")
 #ACCOUNT_EMAIL_VERIFICATION = 'none'
 
