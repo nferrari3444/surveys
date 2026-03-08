@@ -12,10 +12,10 @@ from djangosurvey.settings import base
 from django.core.wsgi import get_wsgi_application
 
 if base.DEBUG == True:
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'InventarioProject.settings.dev')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djangosurvey.settings.dev')
     
 else:
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'InventarioProject.settings.prod')
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djangosurvey.settings.prod')
 
 
 
