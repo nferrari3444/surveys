@@ -7,11 +7,9 @@ from django.db.models import Count, F, Value
 
 class Users(models.Model):
     username = models.CharField(max_length=100)
-    # password = forms.CharField(widget = forms.PasswordInput)
     password = models.CharField(_('password'), max_length=128, default='')
     email =  models.EmailField(max_length=254, blank=False, unique=True, default='',
                                
-
         error_messages={'required': 'Please provide your email address.',
                         'unique': 'An account with this email exist.'},)
 
@@ -46,26 +44,12 @@ class Results(models.Model):
     question = models.ForeignKey(Survey, on_delete=models.CASCADE)
     selectedchoice = models.CharField(max_length=100)
     votes = models.IntegerField(default=0)
-   # user = models.CharField(max_length=50)
    
   
 class Uservotes(models.Model):
-   
     class Meta:
         unique_together = (('username', 'answer'),)
 
-  #  question_name = models.ForeignKey(Survey, on_delete=models.CASCADE)
     question_name = models.ForeignKey(Survey, on_delete=models.CASCADE)
     username = models.CharField(max_length=100)
     answer = models.CharField(max_length=50)
-
-   
-
-    # def save(self, *args, **kwargs):
-        
-    #     if not self.pk and Uservotes.objects.exists():
-        
-    #     # if you'll not check for self.pk 
-    #     # then error will also be raised in the update of exists model
-    #         raise ValidationError('There is can be only one JuicerBaseSettings instance')
-    #     return super(Uservotes, self).save(*args, **kwargs)

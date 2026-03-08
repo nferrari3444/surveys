@@ -24,30 +24,23 @@ from django.core.mail import send_mail
 @login_required
 def SurveyHome(request):
     model = Survey
-    
     surveys = Survey.objects.all().values()
-  
-    
     return render(request, 'surveys/home.html', {'surveys':surveys})
 
 
 def QuestionList(request, surveyID):
     model = Choices
     print(surveyID)
-    #options = Choices.objects.all
-    #template_name = 'surveys/home.html'
-
-    mainquestion = Survey.objects.filter(id=surveyID)[0]#.values()
+   
+    mainquestion = Survey.objects.filter(id=surveyID)[0]
     print('mainquestion is', mainquestion)
     options = Choices.objects.filter(question_id=surveyID).values()
-    #context_object_name = 'options'
 
     
     return render(request,              
                 'surveys/survey.html',
                 {'options': options, 'question': mainquestion, 'surveyID': surveyID})
 
-#@login_required
 def SurveyResponse(request, surveyID):
     choice = request.POST.get('choice','choice')
     
@@ -60,32 +53,13 @@ def SurveyResponse(request, surveyID):
 
     print('question is', surveyID)
 
-
     if request.method == 'POST':
  
         username = request.user
       
-       # questionId = Survey.objects.filter(question = question).values_list('id',flat=True).first()
-
-      
-
-        question_db = Survey.objects.filter(id = surveyID)   #.values()
-
-      
+        question_db = Survey.objects.filter(id = surveyID)  
+     
         newquestion = list(question_db)[0]
-    
-      
-        # survey = Survey.objects.filter(id=surveyID)
-        # surveyQuestion = Survey.objects.filter(question= surveyID)
-        
-        # votes =  Results.objects.filter(question = newquestion).filter(selectedchoice=choice).values_list('votes')
-        
-        # print('votes', votes)
-
-
-        # print('survey', survey)
-        # print('surveyQuestion', surveyQuestion)
-        # print('newquestion', newquestion)
 
         if Uservotes.objects.filter(question_name= newquestion, username = request.user).exists():
             messages.error(request, "User already voted in this Poll", extra_tags='survey_response')
@@ -105,7 +79,6 @@ def SurveyResponse(request, surveyID):
 
                 Results.objects.filter(question= newquestion, selectedchoice=choice).update(votes = F('votes') +1)
           
-            #Results.objects.update_or_create(question = newquestion, selectedchoice = choice, votes =  1)
         
         return HttpResponseRedirect(request.path_info)
    
@@ -124,7 +97,7 @@ def Submissions(request):
     return render(request, 'surveys/submissions.html', context)
 
 def Pollresults(request, questionId):
-    
+
     results = Results.objects.all()
     print('questionId', questionId)
 
@@ -137,15 +110,7 @@ def Pollresults(request, questionId):
 
     print('question is:', title)
 
-   # resultspolls = results.values('question').annotate(votes=Sum('votes'))
-    
-    
-    #print('result is', results)
-   # print('resultpolss is', resultspolls)
-    context = {'polldata': polldata}
-
     return JsonResponse({'pollInfo': list(polldata), 'question': title}, safe=False)
-    #return render(request, 'surveys/results.html', context)
 
 def Myvotes(request, username):
 
