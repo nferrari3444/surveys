@@ -22,14 +22,19 @@ import debug_toolbar
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('surveyapp.urls')),
-    path('__debug__/', include(debug_toolbar.urls)),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/', include('allauth.urls')),
-     path('social-auth/', include('social_django.urls', namespace='social')),
-    
-
+    path('social-auth/', include('social_django.urls', namespace='social')),
 ] 
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 urlpatterns +=  static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+    # ...
+    path("__debug__/", include(debug_toolbar.urls)),
+]  + urlpatterns

@@ -31,28 +31,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1','.vercel.app','localhost'] # Allow *.vercel.app
 
+INSTALLED_APPS = INSTALLED_APPS + [
 
-# Application definition
-# 'django_extensions',
-INSTALLED_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
-    "surveyapp",
-    "tailwind",
-    "storages",
-    'compressor',
-    'django.contrib.sites',
-    'social_django',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.openid'
+    "debug_toolbar",
 ]
+
+MIDDLEWARE = MIDDLEWARE + [
+    # ...
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # ...
+]
+
 
 SITE_ID = 2
 SOCIALACCOUNT_LOGIN_ON_GET=True
@@ -73,18 +62,6 @@ STATICFILES_FINDERS = [
 # TAILWIND_APP_NAME = 'theme'
 # INTERNAL_IPS = ["127.0.0.1",]
 # NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
-MIDDLEWARE = [
-    "django.middleware.security.SecurityMiddleware",
-    "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
-    "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'social_django.middleware.SocialAuthExceptionMiddleware',
-    'allauth.account.middleware.AccountMiddleware', 
-    #  "django_browser_reload.middleware.BrowserReloadMiddleware",
-]
 
 # AUTH_USER_MODEL = "user.User"
 
