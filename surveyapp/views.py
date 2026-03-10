@@ -217,7 +217,7 @@ def Login(request):
         print('username' , username)
         print('password', password)
 
-        if len(username) == 0 | len(password) == 0:
+        if len(username) == 0 or len(password) == 0:
             messages.error(request, "Should add a user Name and password to Log In", extra_tags='login')
             return render(request, 'registration/login.html')
         

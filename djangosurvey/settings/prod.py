@@ -1,11 +1,5 @@
 from .base import *
 
-import environ
-from django.contrib.messages import constants as messages
-# Initialise environment variables
-env = environ.Env()
-environ.Env.read_env()
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',

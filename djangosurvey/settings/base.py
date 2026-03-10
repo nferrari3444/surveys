@@ -20,6 +20,7 @@ environ.Env.read_env(Path(__file__).resolve().parent.parent.parent / '.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -62,11 +63,15 @@ SOCIALACCOUNT_LOGIN_ON_GET=True
 ACCOUNT_EMAIL_REQUIRED=True
 ACCOUNT_USERNAME_REQURIED=True
 
-COMPRESS_ROOT = BASE_DIR / 'static'
+COMPRESS_ROOT = PROJECT_ROOT / 'static'
 
 COMPRESS_ENABLED = True
 
-STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
+]
 
 # TAILWIND_APP_NAME = 'theme'
 # INTERNAL_IPS = ["127.0.0.1",]
@@ -105,12 +110,13 @@ SOCIALACCOUNT_PROVIDERS = {
         }
 
 
-AWS_STORAGE_BUCKET_NAME= 'django-portfolio-nicolas'
-AWS_S3_REGION_NAME = 'us-east-1'
-AWS_ACCESS_KEY_ID =     'AKIAZ2VRG6CP2YYH2NRZ'
-AWS_SECRET_ACCESS_KEY= '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'
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME', 'survey-site-django-nicolas')
+AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', 'us-east-1')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-AWS_DEFAULT_ACL= None
+AWS_DEFAULT_ACL = None
+AWS_QUERYSTRING_AUTH = False
 
 
 
@@ -126,7 +132,7 @@ LOGIN_URL = '/accounts/login/'
 
 ROOT_URLCONF = "djangosurvey.urls"
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), )
+STATICFILES_DIRS = [PROJECT_ROOT / 'static']
 
 STATICFILES_LOCATION = 'static'
 STATICFILES_STORAGE = 'custom_storages.StaticStorage'
@@ -134,11 +140,11 @@ STATICFILES_STORAGE = 'custom_storages.StaticStorage'
 MEDIAFILES_LOCATION = 'media'
 DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+STATIC_ROOT = PROJECT_ROOT / 'staticfiles'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR
+MEDIA_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+MEDIA_ROOT = PROJECT_ROOT / 'media'
 
 TEMPLATES = [
     {
