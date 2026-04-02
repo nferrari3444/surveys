@@ -269,12 +269,8 @@ def Register(request):
 
     if request.method == 'POST':
 
-
         username = request.POST.get('username','username')    
         email = request.POST.get('email','email')
-
- 
-        
         try:
             validate_email(email)
         except ValidationError as e:

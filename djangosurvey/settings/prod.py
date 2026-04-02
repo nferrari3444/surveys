@@ -1,5 +1,7 @@
 from .base import *
 
+ACCOUNT_DEFAULT_HTTP_PROTOCOL='https'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
